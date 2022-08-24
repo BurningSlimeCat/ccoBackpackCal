@@ -17,7 +17,16 @@ items = []
 
 # 視窗
 win = tk.Tk()
-win.geometry('350x300+400+280')
+
+screen_w = win.winfo_screenwidth()  # 輸出螢幕寬度
+screen_h = win.winfo_screenheight()  # 輸出螢幕高度
+win_w = 310
+win_h = 315
+win_x = (screen_w - win_w) / 2
+win_y = (screen_h - win_h) / 2
+
+win.geometry('%dx%d+%d+%d' % (win_w, win_h, win_x, win_y))
+win.resizable(0, 0)
 win.config(bg=bg_color)
 
 win.iconbitmap('backpack.ico')
@@ -66,13 +75,29 @@ class Items:
                 total_amount += i.amount * i.weight
 
         if total_amount > goal:
-            print('畢業了')
+            lab_result.config(text='畢業了!!!')
+            for i in range(0, len(items)):
+                items[i].lab.config(text='')
         else:
+            # lab_result.config(text=f'進度達成 {(total_amount / goal) * 100}%')
+            lab_result.config(text='進度達成 {:.0%}'.format(total_amount / goal))
             goal_need = goal - total_amount
+            for i in range(0, self.index + 1):
+                items[i].lab.config(text='')
+
             for i in range(self.index + 1, len(items)):
                 items[i].need = goal_need // items[i].weight
                 items[i].lab.config(text=f'{items[i].need}')
                 goal_need %= items[i].weight
+
+
+def reset():
+    for i in range(len(items)):
+        items[i].light.config(bg=bg_color)
+        items[i].en.delete(0, "end")
+        items[i].lab.config(text='')
+        lab_result.config(text='歡 迎 使 用 !')
+    pass
 
 
 # -創建物件實體-
@@ -81,8 +106,12 @@ for i in packs:
     item.create_item()
     items.append(item)
 
-# -確認用-
-for i in items:
-    print(i.index, i.name, i.main_color, i.weight)
+lab_result = tk.Label(bg=bgl_color, fg=fg_color, font=my_font, width=16,
+                      text='歡 迎 使 用 !')
+lab_result.grid(row=len(packs) + 1, column=1, columnspan=2)
+
+btn_reset = tk.Button(bg=bgl_color, fg=fg_color, font=my_font, width=4, bd=0,
+                      text='reset', command=reset)
+btn_reset.grid(row=len(packs) + 1, column=3, columnspan=2)
 
 win.mainloop()
