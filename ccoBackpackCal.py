@@ -26,10 +26,8 @@ win_x = (screen_w - win_w) / 2
 win_y = (screen_h - win_h) / 2
 
 win.geometry('%dx%d+%d+%d' % (win_w, win_h, win_x, win_y))
-win.resizable(0, 0)
 win.config(bg=bg_color)
 
-# win.iconbitmap('backpack.ico')
 win.title('我要大背包!!')
 
 
@@ -65,7 +63,7 @@ class Items:
     def choice_pack(self):
         for i in items:
             i.light.config(bg=bg_color)
-        self.light.config(bg='yellow')
+        self.light.config(bg='skyblue')
 
         total_amount = 0
         goal = self.weight
@@ -75,11 +73,10 @@ class Items:
                 total_amount += i.amount * i.weight
 
         if total_amount > goal:
-            lab_result.config(text='畢業了!!!')
+            lab_result.config(text='恭喜完成目標!!!')
             for i in range(0, len(items)):
                 items[i].lab.config(text='')
         else:
-            # lab_result.config(text=f'進度達成 {(total_amount / goal) * 100}%')
             lab_result.config(text='進度達成 {:.0%}'.format(total_amount / goal))
             goal_need = goal - total_amount
             for i in range(0, self.index + 1):
@@ -102,7 +99,7 @@ def reset():
 
 # -創建物件實體-
 for i in packs:
-    item = Items(index=i[0], name=i[1], main_color=i[2], weight=i[3])
+    item = Items(i[0], i[1], i[2], i[3])
     item.create_item()
     items.append(item)
 
