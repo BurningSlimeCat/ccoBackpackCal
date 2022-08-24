@@ -30,7 +30,7 @@ win.resizable(0, 0)
 win.config(bg=bg_color)
 
 # win.iconbitmap('backpack.ico')
-win.title('!背包')
+win.title('我要大背包!!')
 
 
 class Items:
