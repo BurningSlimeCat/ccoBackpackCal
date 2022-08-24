@@ -29,7 +29,7 @@ win.geometry('%dx%d+%d+%d' % (win_w, win_h, win_x, win_y))
 win.resizable(0, 0)
 win.config(bg=bg_color)
 
-win.iconbitmap('backpack.ico')
+# win.iconbitmap('backpack.ico')
 win.title('!背包')
 
 
